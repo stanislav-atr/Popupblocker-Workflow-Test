@@ -1,7 +1,6 @@
 name: Build popup blocker (beta) (manually)
 
-on:
-  push
+on: workflow_dispatch
 
 jobs:
   build:
