@@ -1,0 +1,9 @@
+node_modules
+build
+build_tsickle
+.rpt2_cache
+config
+yarn-error.log
+.DS_Store
+.idea/
+.vscode/
