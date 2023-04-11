@@ -2,9 +2,6 @@ name: Build popup blocker (manually)
 
 on: workflow_dispatch
 
-env:
-  PROJECT_VERSION: ${{ toJSON(package.version) }}
-
 jobs:
   build:
 
