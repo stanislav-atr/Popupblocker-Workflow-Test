@@ -31,16 +31,14 @@ const build = async (config, target: Target) => {
     log(chalk.green(`Successfully built ${target}.`));
 };
 
-const buildUserscript = async (buildProperties = true, buildPath?: string) => {
-    const userscriptConfig = getUserscriptConfig(buildPath);
+const buildUserscript = async () => {
+    const userscriptConfig = getUserscriptConfig();
     await build(userscriptConfig, Target.Userscript);
 
     // Write the build info for our CI
     // build.txt is only required for standalone userscript build
-    if (buildProperties) {
-        await createBuildTxt(BUILD_PATH);
-        log(chalk.green('writing build properties complete'));
-    }
+    await createBuildTxt(BUILD_PATH);
+    log(chalk.green('writing build properties complete'));
 };
 
 const buildTests = async () => {
@@ -54,7 +52,7 @@ const buildOptionsPage = async () => {
 const buildBundle = async () => {
     log(chalk.yellow('Start bundling...'));
 
-    await buildUserscript(false, BUILD_PATH);
+    await buildUserscript();
     await buildOptionsPage();
     await buildTests();
 

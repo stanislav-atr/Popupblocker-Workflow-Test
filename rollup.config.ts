@@ -42,7 +42,7 @@ const commonPlugins = [
 const isDev = env === 'dev';
 const intro = `const DEBUG = ${isDev}; const RECORD = ${isDev}; const NO_PROXY = ${!isDev};`;
 
-const getUserscriptConfig = (buildPath = USERSCRIPT_BUILD_PATH) => {
+const getUserscriptConfig = () => {
     // Prepare metadata
     const metadataPlugin = new MetaDataPlugin(
         METADATA_NAME,
@@ -58,7 +58,7 @@ const getUserscriptConfig = (buildPath = USERSCRIPT_BUILD_PATH) => {
     return {
         input: USERSCRIPT_ENTRY_PATH,
         output: {
-            dir: buildPath,
+            dir: USERSCRIPT_BUILD_PATH,
             entryFileNames: `${USERSCRIPT_NAME}.user.js`,
             format: 'iife',
             intro,
@@ -73,13 +73,13 @@ const getUserscriptConfig = (buildPath = USERSCRIPT_BUILD_PATH) => {
             !isDev && terser(),
             copy({
                 targets: [
-                    { src: ASSETS_PATH, dest: buildPath },
+                    { src: ASSETS_PATH, dest: USERSCRIPT_BUILD_PATH },
                 ],
             }),
             {
                 writeBundle() {
                     // Build and inject metadata
-                    metadataPlugin.injectMetadata(buildPath, `${USERSCRIPT_NAME}.user.js`);
+                    metadataPlugin.injectMetadata(USERSCRIPT_BUILD_PATH, `${USERSCRIPT_NAME}.user.js`);
                 },
             },
         ],

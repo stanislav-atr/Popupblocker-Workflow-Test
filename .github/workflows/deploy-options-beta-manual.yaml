@@ -1,12 +1,6 @@
 name: Build popup blocker (beta) (manually)
 
-on:
-  workflow_dispatch:
-    inputs:
-      ver:
-        description: 'Build ver'
-        required: true
-        type: string
+on: workflow_dispatch
 
 env:
   PACKAGE_VERSION: ${{ toJSON(package.version) }}
@@ -28,6 +22,15 @@ jobs:
 
       - name: build
         run: yarn bundle:beta
+      
+      - name: Set version
+        run: |
+          VER=$(cat build.txt)
+          echo "VERSION=$VER" >> $GITHUB_ENV
+    
+      - name: Show version
+        run: |
+          echo "${{ env.VERSION }} < VERSION"
 
       - name: deploy
         uses: peaceiris/actions-gh-pages@v3
@@ -35,7 +38,7 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: build
-          destination_dir: beta/$PACKAGE_VERSION
+          destination_dir: beta/$env.VERSION
 
   notify:
     needs:
