@@ -32,7 +32,7 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: build
-          destination_dir: ${{ `beta/${github.event.inputs.ver}` }}
+          destination_dir: ${{ github.event.inputs.ver }}
 
   notify:
     needs:
