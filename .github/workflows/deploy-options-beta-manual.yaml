@@ -22,7 +22,7 @@ jobs:
       
       - name: Set version
         run: |
-          VER=$(cat build/build.txt | grep -oP 'version=\K[^ ]+')
+          VER=$(cat build/build.txt | grep -oP 'version=\K[^ ]+' | cut -d. -f1,2)
           echo "VERSION=$VER" >> $GITHUB_ENV
     
       - name: Show version
