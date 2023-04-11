@@ -8,6 +8,9 @@ on:
         required: true
         type: string
 
+env:
+  PACKAGE_VERSION: ${{ toJSON(package.version) }}
+
 jobs:
   build:
 
@@ -32,7 +35,7 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: build
-          destination_dir: ${{ github.event.inputs.ver }}
+          destination_dir: beta/$PACKAGE_VERSION
 
   notify:
     needs:
