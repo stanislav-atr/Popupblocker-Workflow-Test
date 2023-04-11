@@ -2,6 +2,9 @@ name: Build popup blocker (manually)
 
 on: workflow_dispatch
 
+env:
+  PROJECT_VERSION: ${{ toJSON(package.version) }}
+
 jobs:
   build:
 
@@ -26,7 +29,7 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: build
-          destination_dir: release
+          destination_dir: ${{ `release/${PROJECT_VERSION}` }}
 
   notify:
     needs:
