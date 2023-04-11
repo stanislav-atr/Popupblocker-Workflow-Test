@@ -1,10 +1,12 @@
 name: Build popup blocker (beta) (manually)
 
-on: workflow_dispatch
-
-env:
-  PROJECT_VERSION: ${{ toJSON(package.version) }}
-
+on:
+  workflow_dispatch:
+    inputs:
+      ver:
+        description: 'Build ver'
+        required: true
+        type: string
 
 jobs:
   build:
@@ -30,7 +32,7 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: build
-          destination_dir: ${PROJECT_VERSION}
+          destination_dir: ${{ `beta/${github.event.inputs.ver}` }}
 
   notify:
     needs:
