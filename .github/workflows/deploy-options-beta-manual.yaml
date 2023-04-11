@@ -22,7 +22,7 @@ jobs:
       
       - name: Set version
         run: |
-          VER=$(cat build.txt)
+          VER=$(cat build/build.txt)
           echo "VERSION=$VER" >> $GITHUB_ENV
     
       - name: Show version
