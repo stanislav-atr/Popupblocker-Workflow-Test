@@ -24,10 +24,6 @@ jobs:
         run: |
           VER=$(cat build/build.txt | grep -oP 'version=\K[^ ]+' | cut -d. -f1,2)
           echo "VERSION=$VER" >> $GITHUB_ENV
-    
-      - name: Show version
-        run: |
-          echo "${{ env.VERSION }} < VERSION"
 
       - name: deploy
         uses: peaceiris/actions-gh-pages@v3
