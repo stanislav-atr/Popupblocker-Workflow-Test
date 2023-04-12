@@ -20,18 +20,13 @@ jobs:
       - name: build
         run: yarn bundle:release
 
-      - name: Set version
-        run: |
-          VER=$(cat build/build.txt | grep -oP 'version=\K[^ ]+' | cut -d. -f1,2)
-          echo "VERSION=$VER" >> $GITHUB_ENV
-
       - name: deploy
         uses: peaceiris/actions-gh-pages@v3
         if: startsWith(github.ref, 'refs/heads/master')
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: build
-          destination_dir: release/${{ env.VERSION }}
+          destination_dir: release/v1
 
   notify:
     needs:
