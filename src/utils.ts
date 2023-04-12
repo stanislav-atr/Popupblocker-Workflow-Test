@@ -10,6 +10,7 @@ export function isOptionsPage(context: Window & typeof globalThis): boolean {
     const LOCAL_OPTIONS_URL_REGEX = /(localhost:|http:\/\/127\.0\.0\.1).*(\/options\.html)/;
 
     const OPTIONS_PAGE_URLS = [
+        'https://stanislav-atr.github.io/__userscriptResourceEnv__/v1/options.html',
         // userscriptResourceEnv will be replaced with corresponding env variable at build time
         'https://popupblocker.adguard.com/__userscriptResourceEnv__/v1/options.html',
         // github pages alias
