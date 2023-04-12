@@ -11,6 +11,7 @@ import MetaDataPlugin from './tasks/metadata/MetaDataPlugin';
 import metaSettings from './tasks/metadata/meta.settings';
 import { commonPostcssConfig, userscriptPostcssConfig } from './postcss.config';
 import { env } from './tasks/environment';
+import { ChannelPostfix } from './tasks/channels';
 import {
     BUILD_DIR,
     USERSCRIPT_NAME,
@@ -42,23 +43,20 @@ const commonPlugins = [
 const isDev = env === 'dev';
 const intro = `const DEBUG = ${isDev}; const RECORD = ${isDev}; const NO_PROXY = ${!isDev};`;
 
-const getUserscriptConfig = () => {
+const getUserscriptConfig = (buildPath = USERSCRIPT_BUILD_PATH) => {
     // Prepare metadata
     const metadataPlugin = new MetaDataPlugin(
         METADATA_NAME,
         METADATA_TEMPLATE_PATH,
         LOCALES_PATH,
-        metaSettings[env].postfix,
-        {
-            ...metaSettings.common.headersData,
-            ...metaSettings[env].headersData,
-        },
+        ChannelPostfix[env],
+        metaSettings.headersData,
     );
 
     return {
         input: USERSCRIPT_ENTRY_PATH,
         output: {
-            dir: USERSCRIPT_BUILD_PATH,
+            dir: buildPath,
             entryFileNames: `${USERSCRIPT_NAME}.user.js`,
             format: 'iife',
             intro,
@@ -73,13 +71,13 @@ const getUserscriptConfig = () => {
             !isDev && terser(),
             copy({
                 targets: [
-                    { src: ASSETS_PATH, dest: USERSCRIPT_BUILD_PATH },
+                    { src: ASSETS_PATH, dest: buildPath },
                 ],
             }),
             {
                 writeBundle() {
                     // Build and inject metadata
-                    metadataPlugin.injectMetadata(USERSCRIPT_BUILD_PATH, `${USERSCRIPT_NAME}.user.js`);
+                    metadataPlugin.injectMetadata(buildPath, `${USERSCRIPT_NAME}.user.js`);
                 },
             },
         ],

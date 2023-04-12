@@ -20,11 +20,11 @@ jobs:
       - name: yarn install
         run: yarn install
 
-      - name: build
-        run: yarn bundle:release
-
       - name: lint
         run: yarn lint
+
+      - name: build
+        run: yarn bundle:dev
 
   notify:
     needs:

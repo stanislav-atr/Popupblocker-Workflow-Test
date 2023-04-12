@@ -71,7 +71,7 @@ Replace `channel` with the desired channel, which can be `dev`, `beta`, or `rele
  * `userscript` – build userscript for a specified channel;
  * `options` – build options page, which is a standalone page, that provides the user with convenient way of managing allowed and silenced websites;
  * `tests` – build tests;
- * `bundle` – build and bundle all of the above for a release channel.
+ * `bundle` – build and bundle all of the above for a specified channel.
 
 Alternatively, you can run the following commands in a minimist style:
 
@@ -79,8 +79,10 @@ Alternatively, you can run the following commands in a minimist style:
 yarn userscript-<channel>
 yarn options-page
 yarn tests
-yarn bundle
+yarn bundle:beta
+yarn bundle:release
 ```
+
 
 If you are building for development, note that the output will not be minified and will contain logs in the browser console.
 
@@ -106,3 +108,7 @@ An easy way to test the script is to visit http://code.ptcong.com/better-js-popu
 Just click anywhere on that page to get a popunder, or use specific links to get popup/popunder/tabup/etc.
 
 Expected behavior: new windows get blocked with a notification in the top right corner.
+
+## How to deploy options page
+
+Options page is deployed via GitHub Pages with a manual actions `Deploy popup blocker beta` and `Deploy popup blocker release` for `beta` and `release` versions respectively.

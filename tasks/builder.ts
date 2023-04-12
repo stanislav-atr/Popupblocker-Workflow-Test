@@ -2,12 +2,7 @@ import * as fs from 'fs-extra';
 import chalk from 'chalk';
 import { rollup } from 'rollup';
 import { program } from 'commander';
-
-import {
-    BUNDLE_RESOURCE_PATHS,
-    POPUPBLOCKER_CNAME,
-    Target,
-} from './constants';
+import { BUNDLE_RESOURCE_PATHS, Target } from './constants';
 import { createBuildTxt, copyFiles } from './utils';
 import {
     BUILD_PATH,
@@ -31,12 +26,11 @@ const build = async (config, target: Target) => {
     log(chalk.green(`Successfully built ${target}.`));
 };
 
-const buildUserscript = async () => {
-    const userscriptConfig = getUserscriptConfig();
+const buildUserscript = async (buildPath?: string) => {
+    const userscriptConfig = getUserscriptConfig(buildPath);
     await build(userscriptConfig, Target.Userscript);
 
     // Write the build info for our CI
-    // build.txt is only required for standalone userscript build
     await createBuildTxt(BUILD_PATH);
     log(chalk.green('writing build properties complete'));
 };
@@ -52,13 +46,11 @@ const buildOptionsPage = async () => {
 const buildBundle = async () => {
     log(chalk.yellow('Start bundling...'));
 
-    await buildUserscript();
+    await buildUserscript(BUILD_PATH);
     await buildOptionsPage();
     await buildTests();
 
     BUNDLE_RESOURCE_PATHS.forEach((resource) => copyFiles(BUILD_PATH, resource.src, resource.dest));
-    await fs.writeFile(`${BUILD_PATH}/.nojekyll`, '', 'utf-8');
-    await fs.writeFile(`${BUILD_PATH}/CNAME`, POPUPBLOCKER_CNAME, 'utf-8');
 
     log(chalk.green('Bundle built successfully.'));
 };

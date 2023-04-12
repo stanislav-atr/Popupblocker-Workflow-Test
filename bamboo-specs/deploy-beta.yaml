@@ -10,7 +10,7 @@ userscripts.adtidy.org:
   triggers: []
   tasks:
     - clean
-    - checkout:
+    - checkout:                                  
         repository: bamboo-deploy-publisher
         path: bamboo-deploy-publisher
         force-clean-build: 'false'

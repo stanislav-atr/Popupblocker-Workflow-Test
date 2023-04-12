@@ -1,4 +1,4 @@
-name: Build popup blocker (beta) (manually)
+name: Deploy popup blocker release (manually)
 
 on: workflow_dispatch
 
@@ -18,15 +18,16 @@ jobs:
         run: yarn install
 
       - name: build
-        run: yarn bundle:beta
+        run: yarn bundle:release
 
       - name: deploy
         uses: peaceiris/actions-gh-pages@v3
+        # Only deploy project from master branch
         if: startsWith(github.ref, 'refs/heads/master')
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: build
-          destination_dir: beta/v1
+          destination_dir: release/v1
 
   notify:
     needs:
